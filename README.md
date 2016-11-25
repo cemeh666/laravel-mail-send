@@ -6,6 +6,10 @@ In order to install Laravel 5 Entrust, just add
 
 to your composer.json. Then run `composer install` or `composer update`.
 
+Then in your `config/app.php` add
+```php
+    LaravelModule\MailSend\ServiceProvider::class,
+```
 ## Configuration
 
 You can also publish the configuration for this package to further customize table names and model namespaces.  
