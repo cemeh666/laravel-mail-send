@@ -1,0 +1,16 @@
+{
+	"name": "laravel-module/mail-send",
+	"description": "Module mail-send",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "cemeh666",
+			"email": "cemeh666@gmail.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"LaravelModule\\MailSend\\": "src"
+		}
+	}
+}
