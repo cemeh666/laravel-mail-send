@@ -1,6 +1,6 @@
 ## Installation
 
-In order to install Laravel 5 Entrust, just add
+In order to install Laravel 5 MailSend, just add
 
     "laravel-module/mail-send": "dev-master"
 
