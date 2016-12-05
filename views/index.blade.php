@@ -16,7 +16,12 @@
 
         <a href="{{route('mail_delivery')}}" class="btn btn-white m-t-10 m-b-10" >
             <i class="fa fa-plus text-success"></i>
-            <span class="news__add">Создать рассылку</span>
+            <span>Создать рассылку</span>
+        </a>
+
+        <a href="{{route('mail_template')}}" class="btn btn-white m-t-10 m-b-10" >
+            <i class="fa fa-gear"></i>
+            <span>Настройка шаблонов писем</span>
         </a>
         <table class="table table-hover">
             <thead>
@@ -29,17 +34,17 @@
             </tr>
             </thead>
             <tbody>
-            @if($lists)
+            @if(isset($lists))
                 @foreach($lists as $item)
                     <tr>
                         <td>{{$item->id}}</td>
                         <td>{{$item->delivery_name}}</td>
                         <td>{{$item->email_count}}</td>
-                        <td>{{date('d.m.Y')}}</td>
+                        <td>@if($item->last_active){{date('d.m.Y', $item->last_active)}} @else Ещё не запускалась @endif</td>
                         <td>
-                            <a href="" class="btn btn-xs btn-white">настройка</a>
-                            <a href="" class="btn btn-xs btn-success">запустить</a>
-                            <a href="" class="btn btn-xs btn-danger">удалить</a>
+                            <a href="{{action('\LaravelModule\MailSend\Controllers\MailSendController@deliveryEdit', $item->id)}}" class="btn btn-xs btn-white">настройка</a>
+                            <a href="{{action('\LaravelModule\MailSend\Controllers\MailSendController@send', $item->id)}}" class="btn btn-xs btn-success">запустить</a>
+                            <a href="{{action('\LaravelModule\MailSend\Controllers\MailSendController@deliveryDelete', $item->id)}}" class="btn btn-xs btn-danger">удалить</a>
                         </td>
                     </tr>
                 @endforeach

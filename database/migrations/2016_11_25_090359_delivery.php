@@ -19,6 +19,8 @@ class Delivery extends Migration
 		    $table->string('last_active');
 		    $table->string('table_name');
 		    $table->string('table_field');
+		    $table->string('mailer');
+		    $table->string('template');
 		    $table->timestamps();
 	    });
     }

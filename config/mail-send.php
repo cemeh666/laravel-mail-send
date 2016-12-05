@@ -8,5 +8,21 @@ return [
 	'admin-layout'  => 'admin.layout.admin-layout',
 
 	// Секция в которой размещается контент страницы
-	'admin-section' => 'content'
+	'admin-section' => 'content',
+
+	// Добавление почтовых ящиков для отправки
+	'mailer' => [
+		'yandex' => [
+			'host'          => 'smtp.yandex.ru',
+			'port'          => 465,
+			'encryption'    => 'SSL',
+			'username'      => 'chernaya-karta-ru@ya.ru',
+			'password'      => 'yTD1FxdB',
+			'from'          => [
+				'address' => 'chernaya-karta-ru@ya.ru',
+				'name'    => 'Chernaya Karta'
+			],
+		]
+		//...
+	]
 ];

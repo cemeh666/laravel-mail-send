@@ -10,6 +10,7 @@ class ServiceProvider extends LServiceProvider
 
 		//Указываем что пакет должен опубликовать при установке
 		$this->publishes([__DIR__ . '/../config/mail-send.php' => config_path() . "/mail-send.php"]);
+		$this->publishes([__DIR__ . '/../Job/' => base_path("/app/Jobs")]);
 		$this->publishes([__DIR__ . '/../database/migrations/' => base_path("/database/migrations")], 'migrations');
 
 		// Routing

@@ -9,32 +9,33 @@
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
             </div>
-            <h4 class="panel-title">Создать рассылок</h4>
+            <h4 class="panel-title">Редактировать рассылку</h4>
         </div>
         <div class="panel-body">
             @include('module-send::_system_message')
 
-            <form action="{{route('mail_delivery')}}" method="post">
+            <form action="{{route('delivery_edit', $delivery->id)}}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                     <div class="col-md-4">
                         <label>Название рассылки:</label>
-                        <input type="text" name="delivery_name" value="{{old('delivery_name')}}" placeholder="Название рассылки" required class="form-control">
+                        <input type="text" name="delivery_name" value="{{$delivery->delivery_name}}" placeholder="Название рассылки" required class="form-control">
                     </div>
                     <div class="col-md-4">
                         <label>Таблица с почтами:</label>
-                        <input type="text" name="table_name" value="{{old('table_name')}}"  placeholder="Таблица" required class="form-control">
+                        <input type="text" name="table_name" value="{{$delivery->table_name}}"  placeholder="Таблица" required class="form-control">
                     </div>
 
                     <div class="col-md-4">
                         <label>Поле с почтами:</label>
-                        <input type="text" name="table_field" value="{{old('table_field')}}"  placeholder="Поле с почтой" required class="form-control">                    </div>
+                        <input type="text" name="table_field" value="{{$delivery->table_field}}"  placeholder="Поле с почтой" required class="form-control">
+                    </div>
 
                     <div class="col-md-4 m-t-20">
                         <label for="mailer">Выберите отправителя:</label>
                             <select name="mailer" id="mailer" class="form-control">
                                 @foreach(config('mail-send.mailer') as $key => $item)
-                                    <option value="{{$key}}">{{$item['username']}}</option>
+                                    <option value="{{$key}}" @if($delivery->mailer == $key) selected @endif>{{$item['username']}}</option>
                                 @endforeach
                             </select>
                     </div>
@@ -43,7 +44,7 @@
                     <label for="mailer">Выберите шаблон письма:</label>
                     <select name="template" id="mailer" class="form-control">
                         @foreach(config('mail-send.template') as $key => $item)
-                            <option value="{{$key}}">{{$key}}</option>
+                            <option value="{{$key}}" @if($delivery->template == $key) selected @endif>{{$key}}</option>
                         @endforeach
                     </select>
                 </div>
