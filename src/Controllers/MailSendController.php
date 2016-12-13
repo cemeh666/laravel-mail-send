@@ -32,7 +32,7 @@ class MailSendController extends Controller
 				\Session::flash('success', 'Найдено '.count($list).' записей');
 				return redirect()->route('mail_index');
 			}
-			return back()->withErrors($result->getMessage())->withInput();
+			return back()->withErrors($result->getMessageBag())->withInput();
 		}
 
 		return view('module-send::delivery');
@@ -52,7 +52,7 @@ class MailSendController extends Controller
 				\Session::flash('success', 'Рассылка изменена');
 				return redirect()->route('mail_index');
 			}
-			return back()->withErrors($result->getMessage())->withInput();
+			return back()->withErrors($result->getMessageBag())->withInput();
 		}
 
 		return view('module-send::deliveryEdit',[
