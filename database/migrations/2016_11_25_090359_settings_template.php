@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Settings_template extends Migration
+class SettingsTemplate extends Migration
 {
     /**
      * Run the migrations.
