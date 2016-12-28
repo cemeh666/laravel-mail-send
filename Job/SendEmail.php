@@ -3,16 +3,15 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailer;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendEmail implements ShouldQueue
 {
-	use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
-	protected $params;
+    protected $params;
     /**
      * Create a new job instance.
      *
@@ -20,7 +19,7 @@ class SendEmail implements ShouldQueue
      */
     public function __construct(Array $params)
     {
-	    $this->params = $params;
+        $this->params = $params;
     }
 
     /**
@@ -30,26 +29,36 @@ class SendEmail implements ShouldQueue
      */
     public function handle()
     {
-		sleep(random_int(2,5));
-	    $params     = $this->params;
-	    $address    = $params['address'];
-	    $name       = $params['name'];
-	    $email      = $params['email'];
-	    $subject    = $params['subject'];
+        sleep(random_int(2,5));
+        $params     = $this->params;
+        $address    = $params['address'];
+        $name       = $params['name'];
+        $email      = $params['email'];
+        $subject    = $params['subject'];
 
-	    $transport = \Swift_SmtpTransport::newInstance($params['mailer']['host'], $params['mailer']['port'], $params['mailer']['encryption'])
-		    ->setUsername($params['mailer']['username'])
-		    ->setPassword($params['mailer']['password']);
-	    $mailer = \Swift_Mailer::newInstance($transport);
-	    $message = \Swift_Message::newInstance($subject)
-		    ->setFrom($address, $name)
-		    ->setTo(array($email))
-		    ->setBody(view($params['template'], $params['data']), 'text/html');
+        $log = "\n==========================\n";
+        $log .= "Отправитель: ".$params['mailer']['username']."\n";
+        $log .= "Шаблон: ".$params['template']."\n";
+        $log .= "Почта: ".$email."\n";
 
-	    $mailer->send($message);
-//	    $mailer->send($params['template'], $params['data'], function ($mail) use ($address, $name, $email, $subject) {
-//		    $mail->from($address, $name);
-//		    $mail->to($email)->subject($subject);
-//	    });
+        $transport = \Swift_SmtpTransport::newInstance($params['mailer']['host'], $params['mailer']['port'], $params['mailer']['encryption'])
+            ->setUsername($params['mailer']['username'])
+            ->setPassword($params['mailer']['password']);
+        $mailer = \Swift_Mailer::newInstance($transport);
+        $message = \Swift_Message::newInstance($subject)
+            ->setFrom($address, $name)
+            ->setTo(array($email))
+            ->setBody(view($params['template'], $params['data']), 'text/html');
+
+        \Log::useFiles(storage_path('/logs/mail.log'));
+
+        try{
+            $mailer->send($message);
+            \Log::info($log);
+
+        }catch (\Exception $e){
+            $log .="Ошибка: ".$e->getMessage();
+            \Log::warning($log);
+        }
     }
 }
